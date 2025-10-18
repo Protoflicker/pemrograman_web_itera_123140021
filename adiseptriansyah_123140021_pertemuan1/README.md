@@ -68,22 +68,22 @@ Berikut adalah beberapa screenshot yang menunjukkan fitur-fitur utama aplikasi:
 
 **1. Menambahkan Tugas Baru**
 <br>
-![**](screenshot/1.jpg)
-![**](screenshot/2.jpg)
-![**](screenshot/3.jpg)
+<img src="screenshot/1.jpg" width="600">
+<img src="screenshot/2.jpg" width="600">
+<img src="screenshot/3.jpg" width="600">
 <br>
 *Form untuk menambah tugas baru, dengan *dropdown* untuk memilih mata kuliah yang sudah ada.*
 
 **2. Kalender Tugas**
 <br>
-![**](screenshot/4.jpg)
+<img src="screenshot/4.jpg" width="600">
 <br>
 *Menunjukkan kalender dimana tanggal memiliki simbol merah jika ada tugas yang belum selesai dan simbol abu-abu jika ada tugas yang sudah selesai di tanggal tersebut*
 
 **3. Fitur Filter**
 <br>
-![**](screenshot/5.jpg)
-![**](screenshot/6.jpg)
+<img src="screenshot/5.jpg" width="600">
+<img src="screenshot/6.jpg" width="600">
 <br>
 *Contoh penggunaan filter dengan memilih tanggal di kalender dan memfilter berdasarkan mata kuliah tertentu dari *dropdown*.*
 
