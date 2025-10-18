@@ -88,3 +88,6 @@ Berikut adalah beberapa screenshot yang menunjukkan fitur-fitur utama aplikasi:
 *Contoh penggunaan filter dengan memilih tanggal di kalender dan memfilter berdasarkan mata kuliah tertentu dari *dropdown*.*
 
 ---
+
+Jika ingin mencoba aplikasi secara langsung bisa mengunjungi link berikut:
+https://protoflicker.github.io/tugasmanager/
