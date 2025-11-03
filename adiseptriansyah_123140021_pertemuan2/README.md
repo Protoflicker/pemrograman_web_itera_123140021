@@ -14,7 +14,7 @@ Berikut adalah panduan langkah demi langkah untuk menggunakan fitur-fitur utama 
 - Klik tombol "Tambah Tugas". Tugas akan otomatis muncul di kalender dan di daftar tugas di bawah.
 
 ### Mengelola Daftar Tugas
-- **Menandai Selesai:** Klik tombol "Selesai" pada sebuah tugas. Tulisannya akan tercoret, dan indikator di kalender akan berubah menjadi abu-abu. Klik tombol "Batal" untuk mengembalikannya.
+- **Menandai Selesai:** Klik tombol "Selesai" pada sebuah tugas. Tulisannya akan tercoret, dan indikator di kalender akan berubah menjadi abu-abu. Klik tombol "Batal" untuk mengembalikan seperti semula.
 - **Menghapus Tugas:** Klik tombol "Hapus" untuk menghilangkan tugas secara permanen.
 
 ### Menggunakan Kalender dan Filter
@@ -146,3 +146,4 @@ Contoh penggunaan filter berdasarkan tanggal di kalender dan mata kuliah tertent
 
 Jika ingin mencoba aplikasi secara langsung bisa mengunjungi link berikut:  
 https://protoflicker.github.io/tugasmanager/
+
