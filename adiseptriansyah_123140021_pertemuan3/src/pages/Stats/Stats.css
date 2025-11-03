@@ -1,0 +1,133 @@
+.stats-page {
+  padding: 0 10px;
+}
+
+.page-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.page-header h1 {
+  font-size: 2.8em;
+  margin-bottom: 15px;
+  letter-spacing: 3px;
+  border-bottom: none;
+}
+
+.page-description {
+  color: #a0a0a0;
+  font-size: 1.1em;
+  max-width: 700px;
+  margin: 0 auto;
+  line-height: 1.8;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 25px;
+  margin-top: 40px;
+}
+
+.stat-card {
+  background-color: #252525;
+  border: 1px solid #333;
+  border-radius: 12px;
+  padding: 30px;
+  text-align: center;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.2s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+}
+
+.stat-card h3 {
+  margin: 0 0 15px 0;
+  font-size: 1.5em;
+  color: #e0e0e0;
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.stat-card .stat-number {
+  margin: 10px 0 20px 0;
+  font-size: 3.5em;
+  font-weight: 700;
+  color: #00e0ff; 
+}
+
+.stat-detail {
+  font-size: 0.9em;
+  color: #888;
+  margin-top: 15px;
+}
+
+.stat-card.total h3, .stat-card.total .stat-number { color: #00e0ff; }
+.stat-card.owned h3, .stat-card.owned .stat-number { color: #4caf50; }
+.stat-card.reading h3, .stat-card.reading .stat-number { color: #2196f3; }
+.stat-card.wishlist h3, .stat-card.wishlist .stat-number { color: #ffab40; }
+
+
+.progress-bar-container {
+  width: 100%;
+  background-color: #3a3a3a;
+  border-radius: 5px;
+  height: 10px;
+  margin-top: 15px;
+  position: relative;
+  overflow: hidden; 
+}
+
+.progress-bar {
+  height: 100%;
+  border-radius: 5px;
+  transition: width 0.8s ease-out; 
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.progress-bar.owned { background-color: #4caf50; }
+.progress-bar.reading { background-color: #2196f3; }
+.progress-bar.wishlist { background-color: #ffab40; }
+
+
+@media (max-width: 768px) {
+  .page-header h1 {
+    font-size: 2.2em;
+  }
+  .page-description {
+    font-size: 1em;
+  }
+  .stats-grid {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+  }
+  .stat-card {
+    padding: 20px;
+  }
+  .stat-card h3 {
+    font-size: 1.3em;
+  }
+  .stat-card .stat-number {
+    font-size: 2.8em;
+  }
+}
+
+@media (max-width: 480px) {
+  .page-header h1 {
+    font-size: 1.8em;
+  }
+  .stats-grid {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+  .stat-card .stat-number {
+    font-size: 2.5em;
+  }
+}
