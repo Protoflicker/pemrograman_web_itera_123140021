@@ -1,65 +1,35 @@
-# Aplikasi Manajemen Matakuliah (Pyramid Framework)
+# Aplikasi Manajemen Matakuliah
 
-Aplikasi ini adalah RESTful API sederhana untuk pengelolaan data Matakuliah (CRUD) yang dibangun menggunakan Pyramid Framework, SQLAlchemy ORM, dan PostgreSQL. Proyek ini dibuat untuk memenuhi tugas praktikum Pemrograman Web.
+Tugas Praktikum Pemrograman Web (Pyramid Framework).
 
-## Identitas Mahasiswa
-
-**Nama:** Adi Septriansyah  
-**NIM:** 123140021  
-**Kelas:** RA  
-**Pertemuan:** 6 (Pyramid Framework)
+**Identitas:**
+- **Nama:** Adi Septriansyah
+- **NIM:** 123140021
+- **Kelas:** RA
 
 ---
 
-## Persiapan & Instalasi
+## 1. Instalasi
 
-Ikuti langkah-langkah berikut untuk menjalankan proyek ini di komputer lokal Anda.
-
-### 1. Prasyarat
-
-- Python 3.7+
-- PostgreSQL (Pastikan service sudah berjalan)
-- Git (Opsional)
-
-### 2. Setup Virtual Environment
-
-Buka terminal/PowerShell di folder proyek, lalu jalankan:
+Buka terminal di folder proyek ini:
 
 ```bash
-# Membuat virtual environment
+# 1. Setup Environment
 python -m venv venv
-
-# Mengaktifkan virtual environment (Windows)
 .\venv\Scripts\activate
 
-# Mengaktifkan virtual environment (Linux/Mac)
-source venv/bin/activate
-```
-
-### 3. Instalasi Dependensi
-
-Install paket aplikasi dalam mode editable:
-
-```bash
-# Upgrade pip (opsional tapi disarankan)
-pip install --upgrade pip setuptools
-
-# Install dependensi proyek
+# 2. Install Aplikasi & Driver
 pip install -e .
-
-# Install driver database PostgreSQL
 pip install psycopg2-binary
 ```
 
 ---
 
-## 4. Konfigurasi Database (PENTING)
+## 2. Konfigurasi Database
 
-Agar aplikasi dapat berjalan langsung tanpa mengubah kodingan, kita perlu menyamakan environment database.
+Pastikan database pyramid_mahasiswa sudah dibuat.
 
-### Langkah A: Buat File Konfigurasi
-
-Buat file baru bernama `development.ini` di dalam folder root proyek, lalu isi dengan kode berikut:
+Buat file baru bernama development.ini di root folder, lalu salin konfigurasi berikut:
 
 ```ini
 [app:main]
@@ -69,8 +39,8 @@ pyramid.includes =
     pyramid_debugtoolbar
     pyramid_tm
 
-# GANTI 'postgres' DAN 'password_anda' SESUAI DATABASE ANDA
-sqlalchemy.url = postgresql://postgres:password_anda@localhost:5432/pyramid_mahasiswa
+# Konfigurasi Standar Modul (pyramid_user)
+sqlalchemy.url = postgresql://pyramid_user:pyramid_pass@localhost:5432/pyramid_mahasiswa
 
 retry.attempts = 3
 
@@ -80,121 +50,94 @@ listen = localhost:6543
 
 [alembic]
 script_location = pyramid_mahasiswa:alembic
-# GANTI JUGA DISINI
-sqlalchemy.url = postgresql://postgres:password_anda@localhost:5432/pyramid_mahasiswa
+sqlalchemy.url = postgresql://pyramid_user:pyramid_pass@localhost:5432/pyramid_mahasiswa
 
 # Logging configuration
 [loggers]
 keys = root, pyramid_mahasiswa, sqlalchemy, alembic
+
 [handlers]
 keys = console
+
 [formatters]
 keys = generic
+
 [logger_root]
 level = INFO
 handlers = console
+
 [logger_pyramid_mahasiswa]
 level = DEBUG
 handlers =
 qualname = pyramid_mahasiswa
+
 [logger_sqlalchemy]
 level = WARN
 handlers =
 qualname = sqlalchemy.engine
+
 [logger_alembic]
 level = INFO
 handlers =
 qualname = alembic
+
 [handler_console]
 class = StreamHandler
 args = (sys.stderr,)
 level = NOTSET
 formatter = generic
+
 [formatter_generic]
 format = %(asctime)s %(levelname)-5.5s [%(name)s:%(lineno)s][%(threadName)s] %(message)s
 ```
 
-## Cara Menjalankan Aplikasi
+---
 
-### 1. Migrasi Database
+## 3. Menjalankan Aplikasi
 
 ```bash
+# 1. Migrasi Tabel
 alembic -c development.ini upgrade head
-```
 
-### 2. Inisialisasi Data Awal (Seeding)
-
-```bash
+# 2. Isi Data Awal
 python -m pyramid_mahasiswa.scripts.initialize_db development.ini
-```
 
-### 3. Jalankan Server
-
-```bash
+# 3. Start Server
 pserve development.ini --reload
 ```
 
-Aplikasi berjalan di:  
-**http://localhost:6543**
+Akses API:  
+http://localhost:6543/api/matakuliah
 
 ---
 
-## Dokumentasi API
+## 4. Testing API
 
-### 1. Get All Matakuliah  
-```
-GET /api/matakuliah
-```
+Gunakan curl (PowerShell):
 
-### 2. Get Detail Matakuliah  
-```
-GET /api/matakuliah/{id}
-```
-
-### 3. Add Matakuliah  
-```
-POST /api/matakuliah
-```
-
-### 4. Update Matakuliah  
-```
-PUT /api/matakuliah/{id}
-```
-
-### 5. Delete Matakuliah  
-```
-DELETE /api/matakuliah/{id}
-```
-
----
-
-## Testing (Pengujian)
-
-### Test GET
+### GET
 ```powershell
 curl.exe -X GET http://localhost:6543/api/matakuliah
 ```
 
-### Test POST
+### POST
 ```powershell
-curl.exe -X POST http://localhost:6543/api/matakuliah -H "Content-Type: application/json" -d "{\"kode_mk\": \"IF999\", \"nama_mk\": \"Testing API\", \"sks\": 2, \"semester\": 6}"
+curl.exe -X POST http://localhost:6543/api/matakuliah -H "Content-Type: application/json" -d "{\"kode_mk\": \"IF111\", \"nama_mk\": \"Test\", \"sks\": 3, \"semester\": 1}"
 ```
 
-### Test PUT
+### PUT
 ```powershell
 curl.exe -X PUT http://localhost:6543/api/matakuliah/1 -H "Content-Type: application/json" -d "{\"sks\": 4}"
 ```
 
-### Test DELETE
+### DELETE
 ```powershell
 curl.exe -X DELETE http://localhost:6543/api/matakuliah/1
 ```
 
 ---
 
-## Bukti Testing (Screenshot)
-
-Berikut adalah bukti hasil pengujian API menggunakan curl.
+## Bukti Screenshot
 
 ### Bukti GET
 ![Bukti GET](screenshots/1.png)
