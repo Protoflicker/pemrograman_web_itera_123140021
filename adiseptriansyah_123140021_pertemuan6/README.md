@@ -4,9 +4,9 @@ Aplikasi ini adalah RESTful API sederhana untuk pengelolaan data Matakuliah (CRU
 
 ## Identitas Mahasiswa
 
-**Nama:** Adi Septriansyah 
+**Nama:** Adi Septriansyah  
 **NIM:** 123140021  
-**Kelas:** RA 
+**Kelas:** RA  
 **Pertemuan:** 6 (Pyramid Framework)
 
 ---
@@ -30,7 +30,7 @@ Buka terminal/PowerShell di folder proyek, lalu jalankan:
 python -m venv venv
 
 # Mengaktifkan virtual environment (Windows)
-.\venv\Scripts\activate
+.env\Scriptsctivate
 
 # Mengaktifkan virtual environment (Linux/Mac)
 source venv/bin/activate
@@ -51,14 +51,103 @@ pip install -e .
 pip install psycopg2-binary
 ```
 
-### 4. Konfigurasi Database
+---
 
-Buat database kosong di PostgreSQL bernama `pyramid_mahasiswa`.
+## 4. Konfigurasi Database (PENTING)
 
-Pastikan file `development.ini` pada baris `sqlalchemy.url` sudah sesuai dengan username/password PostgreSQL Anda:
+Agar aplikasi dapat berjalan langsung tanpa mengubah kodingan, kita perlu menyamakan environment database.
 
-```toml
-sqlalchemy.url = postgresql://username:password@localhost:5432/pyramid_mahasiswa
+### Langkah A: Buat File Konfigurasi
+
+Buat file baru bernama `development.ini` di dalam folder root proyek, lalu isi dengan kode berikut:
+
+```ini
+[app:main]
+use = egg:pyramid_mahasiswa
+
+pyramid.reload_templates = true
+pyramid.debug_authorization = false
+pyramid.debug_notfound = false
+pyramid.debug_routematch = false
+pyramid.default_locale_name = en
+pyramid.includes =
+    pyramid_debugtoolbar
+    pyramid_tm
+
+# Konfigurasi User & Password Default
+sqlalchemy.url = postgresql://pyramid_user:pyramid_pass@localhost:5432/pyramid_mahasiswa
+
+retry.attempts = 3
+
+[server:main]
+use = egg:waitress#main
+listen = localhost:6543
+
+[alembic]
+script_location = pyramid_mahasiswa:alembic
+sqlalchemy.url = postgresql://pyramid_user:pyramid_pass@localhost:5432/pyramid_mahasiswa
+
+[loggers]
+keys = root, pyramid_mahasiswa, sqlalchemy, alembic
+
+[handlers]
+keys = console
+
+[formatters]
+keys = generic
+
+[logger_root]
+level = INFO
+handlers = console
+
+[logger_pyramid_mahasiswa]
+level = DEBUG
+handlers =
+qualname = pyramid_mahasiswa
+
+[logger_sqlalchemy]
+level = WARN
+handlers =
+qualname = sqlalchemy.engine
+
+[logger_alembic]
+level = INFO
+handlers =
+qualname = alembic
+
+[handler_console]
+class = StreamHandler
+args = (sys.stderr,)
+level = NOTSET
+formatter = generic
+
+[formatter_generic]
+format = %(asctime)s %(levelname)-5.5s [%(name)s:%(lineno)s][%(threadName)s] %(message)s
+```
+
+### Langkah B: Setup User PostgreSQL
+
+Masuk ke PostgreSQL sebagai superuser:
+
+```bash
+psql -U postgres
+```
+
+Jalankan perintah SQL berikut:
+
+```sql
+-- 1. Buat User khusus
+CREATE USER pyramid_user WITH PASSWORD 'pyramid_pass';
+
+-- 2. Buat Database
+CREATE DATABASE pyramid_mahasiswa;
+
+-- 3. Berikan hak akses
+GRANT ALL PRIVILEGES ON DATABASE pyramid_mahasiswa TO pyramid_user;
+
+-- 4. Akses schema (Wajib Postgres 15+)
+\c pyramid_mahasiswa
+GRANT ALL ON SCHEMA public TO pyramid_user;
 ```
 
 ---
@@ -67,15 +156,11 @@ sqlalchemy.url = postgresql://username:password@localhost:5432/pyramid_mahasiswa
 
 ### 1. Migrasi Database
 
-Jalankan perintah ini untuk membuat tabel secara otomatis:
-
 ```bash
 alembic -c development.ini upgrade head
 ```
 
 ### 2. Inisialisasi Data Awal (Seeding)
-
-Isi database dengan data dummy matakuliah:
 
 ```bash
 python -m pyramid_mahasiswa.scripts.initialize_db development.ini
@@ -83,151 +168,62 @@ python -m pyramid_mahasiswa.scripts.initialize_db development.ini
 
 ### 3. Jalankan Server
 
-Mulai server development:
-
 ```bash
 pserve development.ini --reload
 ```
 
-Server akan berjalan di:  
-http://localhost:6543
+Aplikasi berjalan di:  
+**http://localhost:6543**
 
 ---
 
 ## Dokumentasi API
 
-Berikut adalah daftar endpoint yang tersedia dalam aplikasi ini.
-
----
-
-### 1. Get All Matakuliah
-
-Mengambil daftar semua matakuliah yang tersimpan.
-
-- **URL:** `/api/matakuliah`
-- **Method:** GET
-
-**Response Sukses:**
-
-```json
-{
-  "matakuliahs": [
-    {
-      "id": 1,
-      "kode_mk": "IF101",
-      "nama_mk": "Algoritma dan Pemrograman",
-      "sks": 3,
-      "semester": 1
-    }
-  ]
-}
+### 1. Get All Matakuliah  
+```
+GET /api/matakuliah
 ```
 
----
-
-### 2. Get Detail Matakuliah
-
-Mengambil detail satu matakuliah berdasarkan ID.
-
-- **URL:** `/api/matakuliah/{id}`
-- **Method:** GET
-
-**Response Sukses:**
-
-```json
-{
-  "matakuliah": {
-    "id": 1,
-    "kode_mk": "IF101",
-    "nama_mk": "Algoritma dan Pemrograman",
-    "sks": 3,
-    "semester": 1
-  }
-}
+### 2. Get Detail Matakuliah  
+```
+GET /api/matakuliah/{id}
 ```
 
----
-
-### 3. Add Matakuliah
-
-Menambahkan data matakuliah baru.
-
-- **URL:** `/api/matakuliah`
-- **Method:** POST
-
-**Body (JSON):**
-
-```json
-{
-  "kode_mk": "IF300",
-  "nama_mk": "Kecerdasan Buatan",
-  "sks": 3,
-  "semester": 5
-}
+### 3. Add Matakuliah  
+```
+POST /api/matakuliah
 ```
 
----
-
-### 4. Update Matakuliah
-
-Memperbarui data matakuliah yang sudah ada.
-
-- **URL:** `/api/matakuliah/{id}`
-- **Method:** PUT
-
-**Body (JSON):**
-
-```json
-{
-  "nama_mk": "Kecerdasan Buatan Lanjut",
-  "sks": 4
-}
+### 4. Update Matakuliah  
+```
+PUT /api/matakuliah/{id}
 ```
 
----
-
-### 5. Delete Matakuliah
-
-Menghapus data matakuliah.
-
-- **URL:** `/api/matakuliah/{id}`
-- **Method:** DELETE
-
-**Response Sukses:**
-
-```json
-{
-  "success": true,
-  "message": "Matakuliah ID 1 berhasil dihapus"
-}
+### 5. Delete Matakuliah  
+```
+DELETE /api/matakuliah/{id}
 ```
 
 ---
 
 ## Testing (Pengujian)
 
-Berikut adalah perintah curl (format Windows PowerShell) untuk menguji setiap endpoint.
-
-### 1. Test GET (Ambil Data)
-
+### Test GET
 ```powershell
 curl.exe -X GET http://localhost:6543/api/matakuliah
 ```
 
-### 2. Test POST (Tambah Data)
-
+### Test POST
 ```powershell
 curl.exe -X POST http://localhost:6543/api/matakuliah -H "Content-Type: application/json" -d "{\"kode_mk\": \"IF999\", \"nama_mk\": \"Testing API\", \"sks\": 2, \"semester\": 6}"
 ```
 
-### 3. Test PUT (Update Data)
-
+### Test PUT
 ```powershell
 curl.exe -X PUT http://localhost:6543/api/matakuliah/1 -H "Content-Type: application/json" -d "{\"sks\": 4}"
 ```
 
-### 4. Test DELETE (Hapus Data)
-
+### Test DELETE
 ```powershell
 curl.exe -X DELETE http://localhost:6543/api/matakuliah/1
 ```
