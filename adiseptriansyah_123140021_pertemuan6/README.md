@@ -64,18 +64,13 @@ Buat file baru bernama `development.ini` di dalam folder root proyek, lalu isi d
 ```ini
 [app:main]
 use = egg:pyramid_mahasiswa
-
 pyramid.reload_templates = true
-pyramid.debug_authorization = false
-pyramid.debug_notfound = false
-pyramid.debug_routematch = false
-pyramid.default_locale_name = en
 pyramid.includes =
     pyramid_debugtoolbar
     pyramid_tm
 
-# Konfigurasi User & Password Default
-sqlalchemy.url = postgresql://pyramid_user:pyramid_pass@localhost:5432/pyramid_mahasiswa
+# GANTI 'postgres' DAN 'password_anda' SESUAI DATABASE ANDA
+sqlalchemy.url = postgresql://postgres:password_anda@localhost:5432/pyramid_mahasiswa
 
 retry.attempts = 3
 
@@ -85,42 +80,36 @@ listen = localhost:6543
 
 [alembic]
 script_location = pyramid_mahasiswa:alembic
-sqlalchemy.url = postgresql://pyramid_user:pyramid_pass@localhost:5432/pyramid_mahasiswa
+# GANTI JUGA DISINI
+sqlalchemy.url = postgresql://postgres:password_anda@localhost:5432/pyramid_mahasiswa
 
+# Logging configuration
 [loggers]
 keys = root, pyramid_mahasiswa, sqlalchemy, alembic
-
 [handlers]
 keys = console
-
 [formatters]
 keys = generic
-
 [logger_root]
 level = INFO
 handlers = console
-
 [logger_pyramid_mahasiswa]
 level = DEBUG
 handlers =
 qualname = pyramid_mahasiswa
-
 [logger_sqlalchemy]
 level = WARN
 handlers =
 qualname = sqlalchemy.engine
-
 [logger_alembic]
 level = INFO
 handlers =
 qualname = alembic
-
 [handler_console]
 class = StreamHandler
 args = (sys.stderr,)
 level = NOTSET
 formatter = generic
-
 [formatter_generic]
 format = %(asctime)s %(levelname)-5.5s [%(name)s:%(lineno)s][%(threadName)s] %(message)s
 ```
