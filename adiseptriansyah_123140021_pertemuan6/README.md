@@ -30,7 +30,7 @@ Buka terminal/PowerShell di folder proyek, lalu jalankan:
 python -m venv venv
 
 # Mengaktifkan virtual environment (Windows)
-.env\Scriptsctivate
+.\venv\Scripts\activate
 
 # Mengaktifkan virtual environment (Linux/Mac)
 source venv/bin/activate
