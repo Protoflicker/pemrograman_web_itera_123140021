@@ -125,33 +125,6 @@ formatter = generic
 format = %(asctime)s %(levelname)-5.5s [%(name)s:%(lineno)s][%(threadName)s] %(message)s
 ```
 
-### Langkah B: Setup User PostgreSQL
-
-Masuk ke PostgreSQL sebagai superuser:
-
-```bash
-psql -U postgres
-```
-
-Jalankan perintah SQL berikut:
-
-```sql
--- 1. Buat User khusus
-CREATE USER pyramid_user WITH PASSWORD 'pyramid_pass';
-
--- 2. Buat Database
-CREATE DATABASE pyramid_mahasiswa;
-
--- 3. Berikan hak akses
-GRANT ALL PRIVILEGES ON DATABASE pyramid_mahasiswa TO pyramid_user;
-
--- 4. Akses schema (Wajib Postgres 15+)
-\c pyramid_mahasiswa
-GRANT ALL ON SCHEMA public TO pyramid_user;
-```
-
----
-
 ## Cara Menjalankan Aplikasi
 
 ### 1. Migrasi Database
