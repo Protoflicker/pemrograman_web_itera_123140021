@@ -1,0 +1,78 @@
+.book-list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 15px;
+}
+
+.empty-list-message {
+  text-align: center;
+  font-style: italic;
+  color: #888;
+  padding: 20px;
+}
+
+.book-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  background-color: #333333; 
+  border: 1px solid #444444;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.book-item:hover {
+  border-color: #00c4ff;
+  box-shadow: 0 0 10px rgba(0, 196, 255, 0.2);
+}
+
+.book-info h3 {
+  margin: 0 0 5px 0;
+  color: #00c4ff;
+}
+
+.book-info p {
+  margin: 0;
+  color: #bbbbbb;
+  font-style: italic;
+}
+
+.book-meta {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.book-actions button {
+  padding: 8px 12px;
+  font-size: 0.9em;
+}
+
+.status-badge {
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.9em;
+  color: #1a1a1a;
+}
+
+.status-milik { background-color: #4caf50; }
+.status-baca { background-color: #2196f3; }
+.status-beli { background-color: #ffab40; } 
+
+@media (max-width: 600px) {
+  .book-item, .book-meta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .book-meta {
+    width: 100%;
+    margin-top: 10px;
+  }
+  .book-actions {
+    margin-top: 5px;
+  }
+}
